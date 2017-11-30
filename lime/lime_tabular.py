@@ -359,7 +359,7 @@ class LimeTabularExplainer(object):
         for label in labels:
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
-             ret_exp.score) = self.base.explain_instance_with_data(
+             ret_exp.score, local_pred) = self.base.explain_instance_with_data(
                     scaled_data,
                     yss,
                     distances,
@@ -373,7 +373,7 @@ class LimeTabularExplainer(object):
             ret_exp.local_exp[1] = [x for x in ret_exp.local_exp[0]]
             ret_exp.local_exp[0] = [(i, -1 * j) for i, j in ret_exp.local_exp[1]]
 
-        return ret_exp
+        return ret_exp, local_pred, scaled_data[0].reshape(1, -1)
 
     def __data_inverse(self,
                        data_row,
